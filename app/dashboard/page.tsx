@@ -1,8 +1,7 @@
 'use client';
-import { useEffect, useMemo } from 'react';
-import ideasSeed from '@/lib/mock-ideas.json';
-import type { Idea, Project } from '@/lib/types';
-import { useStore, seedIdeas } from '@/lib/store';
+import { useEffect } from 'react';
+import { useStore } from '@/lib/store';
+import type { Idea } from '@/lib/types';
 import Link from 'next/link';
 
 function ScoreBar({label,value}:{label:string;value:number}){
@@ -19,7 +18,9 @@ function ScoreBar({label,value}:{label:string;value:number}){
 
 export default function Dashboard(){
   const ideas = useStore(s=>s.ideas);
-  useEffect(()=>{ seedIdeas(ideasSeed as any); },[]);
+  const bootstrapFromCloud = useStore(s=>s.bootstrapFromCloud);
+
+  useEffect(() => { bootstrapFromCloud(); }, [bootstrapFromCloud]);
 
   return (
     <div className="space-y-6">
