@@ -1,0 +1,160 @@
+[
+  {
+    "id": "saas-invoice-ai",
+    "title": "AI Invoicing Copilot",
+    "summary": "Automates invoice creation for SMBs.",
+    "category": "app",
+    "industry": "Fintech",
+    "source_signals": [
+      {
+        "type": "trends",
+        "evidence": "AI bookkeeping momentum",
+        "score": 0.8
+      }
+    ],
+    "success_score": 78,
+    "factor_breakdown": {
+      "demand": 82,
+      "competition": 65,
+      "monetization": 80,
+      "ops": 70,
+      "regulatory": 58,
+      "capital": 72,
+      "founder_fit": 70
+    },
+    "confidence": 0.71,
+    "trend_window": {
+      "start": "2024-06",
+      "peak": "2025-02",
+      "decay_months": 18
+    },
+    "best_markets": [
+      {
+        "country": "US",
+        "reason": "High SaaS spend",
+        "market_size_index": 92
+      },
+      {
+        "country": "DE",
+        "reason": "SMB density",
+        "market_size_index": 81
+      }
+    ],
+    "competition": {
+      "summary": "Incumbents adding AI; room for niches",
+      "players": [
+        {
+          "name": "QuickBooks"
+        },
+        {
+          "name": "Xero"
+        }
+      ]
+    },
+    "required_roles": [
+      "frontend",
+      "backend",
+      "designer",
+      "growth"
+    ],
+    "recommended_ai_tools": [
+      {
+        "task": "UI copy",
+        "tool": "ChatGPT",
+        "why": "Faster UX writing",
+        "alt": [
+          "Writer",
+          "Jasper"
+        ]
+      }
+    ],
+    "estimated_budget": {
+      "currency": "USD",
+      "capex": 8000,
+      "opex_monthly": 300
+    },
+    "risk": [
+      "regulatory",
+      "crowded"
+    ]
+  },
+  {
+    "id": "creator-analytics-lite",
+    "title": "Creator Analytics Lite",
+    "summary": "Unified lightweight analytics for TikTok/Reels.",
+    "category": "app",
+    "industry": "MarTech",
+    "source_signals": [
+      {
+        "type": "social",
+        "evidence": "Short-form growth",
+        "score": 0.7
+      }
+    ],
+    "success_score": 74,
+    "factor_breakdown": {
+      "demand": 78,
+      "competition": 62,
+      "monetization": 70,
+      "ops": 76,
+      "regulatory": 65,
+      "capital": 60,
+      "founder_fit": 72
+    },
+    "confidence": 0.66,
+    "trend_window": {
+      "start": "2024-10",
+      "peak": "2025-05",
+      "decay_months": 12
+    },
+    "best_markets": [
+      {
+        "country": "US",
+        "reason": "Creator economy",
+        "market_size_index": 90
+      },
+      {
+        "country": "BR",
+        "reason": "High creator base",
+        "market_size_index": 76
+      }
+    ],
+    "competition": {
+      "summary": "Many dashboards; niche focus wins",
+      "players": [
+        {
+          "name": "Later"
+        },
+        {
+          "name": "HypeAuditor"
+        }
+      ]
+    },
+    "required_roles": [
+      "frontend",
+      "backend",
+      "growth",
+      "designer"
+    ],
+    "recommended_ai_tools": [
+      {
+        "task": "content ideas",
+        "tool": "ChatGPT",
+        "why": "Idea generation",
+        "alt": [
+          "Notion AI",
+          "Jasper"
+        ]
+      }
+    ],
+    "estimated_budget": {
+      "currency": "USD",
+      "capex": 5000,
+      "opex_monthly": 250
+    },
+    "risk": [
+      "crowded",
+      "unstable_api"
+    ]
+  }
+]
