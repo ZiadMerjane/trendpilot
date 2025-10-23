@@ -24,8 +24,8 @@ export default function VisualEditor(){
   function apply() {
     try{
       const ops = JSON.parse(patchText);
-      const result = applyPatch(JSON.parse(JSON.stringify(tree)), ops, true, false);
-      store.updateProject(project.project_id, { ui_component_tree: result.newDocument as any });
+  const result = applyPatch(JSON.parse(JSON.stringify(tree)), ops, true, false);
+  store.updateProject(project!.project_id, { ui_component_tree: result.newDocument as any });
       alert('Patch applied!');
     }catch(e:any){
       alert('Invalid patch: '+e.message);
