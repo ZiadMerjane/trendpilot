@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import type { Idea, Project } from '@/lib/types';
 import seed from '@/lib/mock-ideas.json';
-import { repoFetchIdeas, repoUpsertIdeas, repoFetchProjects, repoUpsertProject } from '@/lib/repo';
+import { repoFetchIdeas, repoUpsertIdeas, repoFetchProjects, repoUpsertProject, repoSubscribeProjects } from '@/lib/repo';
 
 type State = {
   ideas: Idea[];
@@ -42,32 +42,43 @@ export const useStore = create<State>((set, get) => ({
     saveLocal(next); set(next);
   },
   bootstrapFromCloud: async () => {
+    const { data } = await supabase.auth.getSession();
+    const authed = !!data.session;
+    set({ signedIn: authed });
+
+    if (!authed) {
+      // show demo data when logged out
+      const ideas = seed as Idea[];
+      const projects: Project[] = [];
+      saveLocal({ ideas, projects });
+      set({ ideas, projects });
+      return;
+    }
+
     try {
-      // download existing
       const [cloudIdeas, cloudProjects] = await Promise.all([repoFetchIdeas(), repoFetchProjects()]);
-      // seed if empty
       const ideas = cloudIdeas.length ? cloudIdeas : (seed as Idea[]);
       if (!cloudIdeas.length) await repoUpsertIdeas(ideas);
       const projects = cloudProjects;
       saveLocal({ ideas, projects });
-      set({ ideas, projects, addProject: get().addProject, updateProject: get().updateProject, bootstrapFromCloud: get().bootstrapFromCloud });
+      set({ ideas, projects });
+
+      // subscribe to realtime project updates
+      if (authed) {
+        repoSubscribeProjects((list) => {
+          const { ideas } = get();
+          saveLocal({ ideas, projects: list });
+          set({ projects: list });
+        });
+      }
     } catch (e) {
-      // Fallback to local mocks
-      const ideas = (seed as Idea[]);
+      const ideas = seed as Idea[];
       const projects: Project[] = [];
       saveLocal({ ideas, projects });
-      set({ ideas, projects, addProject: get().addProject, updateProject: get().updateProject, bootstrapFromCloud: get().bootstrapFromCloud });
+      set({ ideas, projects });
       console.warn('Supabase unavailable, using local seed.', e);
     }
   }
 }));
 
-// Set up auth listener (run on client, after store is created)
-if (typeof window !== 'undefined') {
-  supabase.auth.getUser().then(({ data }) => {
-    useStore.setState({ signedIn: !!data.user });
-  }).catch(() => {});
-  supabase.auth.onAuthStateChange((_, session) => {
-    useStore.setState({ signedIn: !!session });
-  });
-}
+// Auth sync is now handled by AuthInit component

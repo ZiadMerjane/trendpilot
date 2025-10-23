@@ -1,6 +1,7 @@
 import "./globals.css";
 import { ReactNode } from "react";
 import AuthButtons from '@/components/AuthButtons';
+import AuthInit from '@/components/AuthInit';
 export const metadata = { title: "TrendPilot", description: "From trends to real apps" };
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </nav>
           </div>
         </header>
+        <AuthInit />
         <main className="container py-8">{children}</main>
         <footer className="container py-10 text-xs opacity-70">© {new Date().getFullYear()} TrendPilot</footer>
       </body>
