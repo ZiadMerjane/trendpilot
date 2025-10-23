@@ -4,6 +4,8 @@ import { useStore } from '@/lib/store';
 import type { Idea } from '@/lib/types';
 import Link from 'next/link';
 import AuthButtons from '@/components/AuthButtons';
+import TrendingInsights from './trending-insights';
+import GenerateIdeasButton from '@/components/GenerateIdeasButton';
 
 function ScoreBar({label,value}:{label:string;value:number}){
   return (
@@ -26,9 +28,15 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Trend Discovery Dashboard</h1>
+  <h1 className="text-2xl font-bold">Trend Discovery Dashboard</h1>
 
-      {!signedIn && (
+  <TrendingInsights />
+
+  <div className="flex items-center gap-3">
+    <GenerateIdeasButton />
+  </div>
+
+  {!signedIn && (
         <div className="card p-4">
           <p className="mb-2">You're viewing demo data. Sign in to save ideas & projects to your account.</p>
           <AuthButtons />

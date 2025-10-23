@@ -19,18 +19,7 @@ function saveLocal(s: Pick<State, 'ideas'|'projects'>) {
   if (typeof window !== 'undefined') localStorage.setItem(persistKey, JSON.stringify(s));
 }
 
-// Initialize auth state
 import { supabase } from '@/lib/supabase';
-
-// Set up auth listener
-if (typeof window !== 'undefined') {
-  supabase.auth.getUser().then(({ data }) => {
-    useStore.setState({ signedIn: !!data.user });
-  });
-  supabase.auth.onAuthStateChange((_, session) => {
-    useStore.setState({ signedIn: !!session });
-  });
-}
 
 export const useStore = create<State>((set, get) => ({
   ideas: [],
@@ -72,3 +61,13 @@ export const useStore = create<State>((set, get) => ({
     }
   }
 }));
+
+// Set up auth listener (run on client, after store is created)
+if (typeof window !== 'undefined') {
+  supabase.auth.getUser().then(({ data }) => {
+    useStore.setState({ signedIn: !!data.user });
+  }).catch(() => {});
+  supabase.auth.onAuthStateChange((_, session) => {
+    useStore.setState({ signedIn: !!session });
+  });
+}
