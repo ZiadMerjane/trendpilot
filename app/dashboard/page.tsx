@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useStore } from '@/lib/store';
 import type { Idea } from '@/lib/types';
 import Link from 'next/link';
+import AuthButtons from '@/components/AuthButtons';
 
 function ScoreBar({label,value}:{label:string;value:number}){
   return (
@@ -16,15 +17,24 @@ function ScoreBar({label,value}:{label:string;value:number}){
   );
 }
 
-export default function Dashboard(){
-  const ideas = useStore(s=>s.ideas);
-  const bootstrapFromCloud = useStore(s=>s.bootstrapFromCloud);
+export default function Dashboard() {
+  const ideas = useStore(s => s.ideas);
+  const bootstrapFromCloud = useStore(s => s.bootstrapFromCloud);
+  const signedIn = useStore(s => s.signedIn);
 
   useEffect(() => { bootstrapFromCloud(); }, [bootstrapFromCloud]);
 
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Trend Discovery Dashboard</h1>
+
+      {!signedIn && (
+        <div className="card p-4">
+          <p className="mb-2">You're viewing demo data. Sign in to save ideas & projects to your account.</p>
+          <AuthButtons />
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {ideas.map((idea: Idea)=>(
           <div key={idea.id} className="card p-4 flex flex-col gap-3">

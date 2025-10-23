@@ -7,6 +7,7 @@ import { repoFetchIdeas, repoUpsertIdeas, repoFetchProjects, repoUpsertProject }
 type State = {
   ideas: Idea[];
   projects: Project[];
+  signedIn: boolean;
   addProject: (p: Project) => Promise<void>;
   updateProject: (id: string, patch: Partial<Project>) => Promise<void>;
   bootstrapFromCloud: () => Promise<void>;
@@ -18,9 +19,23 @@ function saveLocal(s: Pick<State, 'ideas'|'projects'>) {
   if (typeof window !== 'undefined') localStorage.setItem(persistKey, JSON.stringify(s));
 }
 
+// Initialize auth state
+import { supabase } from '@/lib/supabase';
+
+// Set up auth listener
+if (typeof window !== 'undefined') {
+  supabase.auth.getUser().then(({ data }) => {
+    useStore.setState({ signedIn: !!data.user });
+  });
+  supabase.auth.onAuthStateChange((_, session) => {
+    useStore.setState({ signedIn: !!session });
+  });
+}
+
 export const useStore = create<State>((set, get) => ({
   ideas: [],
   projects: [],
+  signedIn: false,
   addProject: async (p) => {
     // Cloud first
     await repoUpsertProject(p);
